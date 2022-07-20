@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+          # Available [trace|debug|profile]. Use Comma separated available values for multiple mode
+          # Use "off" to disable xdebug
+          #- XDEBUG_MODES=debug,trace
+          - XDEBUG_MODES=coverage
+          # Set the following values to overwrite the existing settings.
+          # Uncomment the following line and change value.
+          - REMOTE_HOST=host.docker.internal # Host machine IP
+          - REMOTE_PORT=9003 # IDE/Editor's listener port
+          - IDE_KEY=docker # IDE's filter/listener key
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "9900:9000"
+    volumes:
+      - .:/var/www
+      - ./docker/xdebug:/tmp/xdebug
+      - ./docker/config/php-ini:/usr/local/etc/php/custom.d
+    networks:
+      - app-network
+
+  nginx:
+    image: nginx:alpine
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "8777:80"
+      - "3443:443"
+    volumes:
+      - .:/var/www
+      - ./nginx.default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
