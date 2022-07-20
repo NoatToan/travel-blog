@@ -2,7 +2,14 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
+use Illuminate\Broadcasting\BroadcastException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -34,8 +41,26 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
-        $this->reportable(function (Throwable $e) {
-            //
+        $this->renderable(function (BroadcastException $e) {
+            Log::channel('pusher')->error($e);
+
+            return Response::serverError(__('messages.server_error'));
+        });
+        $this->renderable(function (ModelNotFoundException $e) {
+            return Response::clientError(__('messages.not_found', 404));
+        });
+        $this->renderable(function (NotFoundHttpException $e) {
+            if ($e->getPrevious() instanceof ModelNotFoundException) {
+                return Response::clientError(__('messages.not_found'), 404);
+            }
+
+            return Response::clientError(__('messages.server_error'), 404);
+        });
+        $this->renderable(function (AuthenticationException $e) {
+            return Response::clientError(__('messages.unauthorized'), 401);
+        });
+        $this->renderable(function (ValidationException $e) {
+            return Response::showMessageError(__('messages.validation_failed'), $e->errors());
         });
     }
 }
