@@ -24,7 +24,7 @@ class Blog extends Model
     ];
 
 
-    // RELATIONs
+    // Relations
 
     /**
      * Get the post's image.

@@ -5,9 +5,12 @@ namespace App\Http\Controllers\V1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
+use App\Http\Resources\Blogs\BlogResource;
 use App\Models\Blog;
 use App\Services\BlogService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Response;
 
 class BlogController extends Controller
 {
@@ -25,7 +28,11 @@ class BlogController extends Controller
      */
     public function index(Request $request)
     {
-        return $this->service->paginate($request);
+        return Response::indexSuccess(
+            BlogResource::collection(
+                $this->service->paginate($request)
+            )
+        );
     }
 
     /**
@@ -47,7 +54,9 @@ class BlogController extends Controller
      */
     public function show(Blog $blog)
     {
-        return $blog;
+        return Response::showSuccess(
+            BlogResource::make($blog)
+        );
     }
 
     /**
@@ -68,8 +77,11 @@ class BlogController extends Controller
      * @param \App\Models\Blog $blog
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Blog $blog)
+    public function destroy($blogId)
     {
-        //
+        DB::transaction(function () use ($blogId) {
+            Blog::query()->findOrFail($blogId);
+            $this->service->delete($blogId);
+        });
     }
 }

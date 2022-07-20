@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Blog;
+use App\Repositories\BlogRepository;
 use App\Services\IServices\IBlogService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class BlogService extends AbstractService
 {
 
-    public function __construct(Blog $repository)
+    public function __construct(BlogRepository $repository)
     {
         $this->repository = $repository;
     }
