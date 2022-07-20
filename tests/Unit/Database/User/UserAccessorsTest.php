@@ -4,7 +4,6 @@ namespace Tests\Unit\Database\User;
 
 use App\Enums\User\UserRole;
 use App\Models\User;
-use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -22,7 +21,7 @@ class UserAccessorsTest extends TestCase
         $this->afterApplicationCreated(function () {
             $user = User::query()->find(1);
 
-            $this->assertEquals($user->full_name, implode(" ", array($user->first_name, $user->last_name)));
+            $this->assertEquals($user->full_name, implode(" ", [$user->first_name, $user->last_name]));
 
 
             $roles = UserRole::getValues();

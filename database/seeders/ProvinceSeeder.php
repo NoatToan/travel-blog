@@ -18,10 +18,10 @@ class ProvinceSeeder extends Seeder
         $json = File::get("database/provinces.json");
         $data = json_decode($json);
         foreach ($data as $obj) {
-          Province::create(array(
+            Province::create([
             'province_id' => $obj->code,
             'name' => $obj->name
-          ));
+          ]);
         }
     }
 }

@@ -19,4 +19,3 @@ return array_merge(
     array_fill_keys($ableForInterviewer, [UserRole::ADMIN, UserRole::INTERVIEWER]),
     array_fill_keys($ableForInterviewee, [UserRole::ADMIN, UserRole::INTERVIEWER, UserRole::INTERVIEWEE]),
 );
-

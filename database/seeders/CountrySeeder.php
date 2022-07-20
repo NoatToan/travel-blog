@@ -19,6 +19,5 @@ class CountrySeeder extends Seeder
             'code' => 'seeking_tour_guide',
             'description' => $this->faker->realText(50),
         ]);
-        
     }
 }

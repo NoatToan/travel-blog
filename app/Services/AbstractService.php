@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Repositories\AbstractRepository;
-use App\Repositories\BlogRepository;
 use Illuminate\Http\Request;
 
 class AbstractService

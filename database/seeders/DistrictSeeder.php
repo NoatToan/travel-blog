@@ -2,9 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\District;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\File;
 
 class DistrictSeeder extends Seeder
 {
@@ -15,6 +13,6 @@ class DistrictSeeder extends Seeder
      */
     public function run()
     {
-    //
+        //
     }
 }

@@ -2,12 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Console\RouteListCommand;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Route;
-
 class HomeController extends Controller
 {
     /**

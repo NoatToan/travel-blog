@@ -50,7 +50,7 @@ class User extends Authenticatable
      */
     protected function getFullNameAttribute()
     {
-        return implode(" ", array($this->first_name, $this->last_name));
+        return implode(" ", [$this->first_name, $this->last_name]);
     }
 
     public function routeNotificationForNexmo($notification)

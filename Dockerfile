@@ -22,10 +22,22 @@ RUN apt-get update && apt-get install -y \
     pkg-config \
     libssl-dev
 
+# Install nodejs
+RUN apt-get update &&\
+    apt-get install -y --no-install-recommends gnupg &&\
+    curl -sL https://deb.nodesource.com/setup_14.x | bash - &&\
+    apt-get update &&\
+    apt-get install -y --no-install-recommends nodejs &&\
+    npm config set registry https://registry.npm.taobao.org --global &&\
+    npm install --global gulp-cli
+RUN npm install husky lint-staged --save-dev &&\npx husky install
+
 # Install extensions
 RUN docker-php-ext-install pdo_mysql mbstring zip exif pcntl
 RUN docker-php-ext-configure gd --with-gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/
 RUN docker-php-ext-install gd
+RUN apt install -y libxml2-dev
+RUN docker-php-ext-install dom
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*

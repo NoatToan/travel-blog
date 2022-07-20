@@ -55,7 +55,6 @@ class BlogControllerTest extends TestCase
                 $this->assertEquals($id, $user->id);
             }
         });
-
     }
 
     public function test_blog_destroy()

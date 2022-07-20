@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -19,6 +18,6 @@ class SystemTest extends TestCase
      */
     public function test_user_factory()
     {
-        $this->assertEquals(1,1);
+        $this->assertEquals(1, 1);
     }
 }

@@ -11,6 +11,7 @@ services:
       - "9900:9000"
     volumes:
       - .:/var/www
+      - ./docker/etc/custom-php.ini:/usr/local/etc/php/conf.d/custom-php.ini
     networks:
       - app-network
 
