@@ -13,7 +13,6 @@ class BlogComment extends Model
     protected $fillable = [
         'name',
         'content',
-        'blog_comments_id',
         'author_id',
         'blog_id',
         'status',

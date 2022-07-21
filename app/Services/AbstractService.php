@@ -36,16 +36,18 @@ class AbstractService
      */
     public function update(int $id, Request $request)
     {
-        return $this->repository->update($id, $request->validated());
+        return $this->repository->query()
+            ->findOrFail($id)
+            ->update($request->validated());
     }
 
     /**
      * @param Request $request
      * @return mixed
      */
-    public function create(Request $request)
+    public function store(Request $request)
     {
-        return $this->repository->create($request->validated());
+        return $this->repository->store($request->validated());
     }
 
     /**

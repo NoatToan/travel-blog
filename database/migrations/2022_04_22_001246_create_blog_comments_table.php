@@ -16,7 +16,6 @@ class CreateBlogCommentsTable extends Migration
         Schema::create('blog_comments', function (Blueprint $table) {
             $table->id();
             $table->string('content');
-            $table->bigInteger('blog_comments_id');
             $table->unsignedBigInteger('author_id')->nullable();
             $table->foreign('author_id')->references('user_id')->on('user_trackings');
             $table->unsignedBigInteger('blog_id')->nullable();

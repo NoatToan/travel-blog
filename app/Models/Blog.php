@@ -10,6 +10,8 @@ class Blog extends Model
 {
     use HasFactory, SoftDeletes;
 
+    public $relationsCheckingAfterDelete = ['comments', 'images'];
+
     protected $fillable = [
         'name',
         'content',
@@ -23,15 +25,24 @@ class Blog extends Model
         'deleted_at',
     ];
 
-
     // Relations
+
+    public function author()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(BlogComment::class);
+    }
 
     /**
      * Get the post's image.
      */
-    public function image()
+    public function images()
     {
-        return $this->morphOne(Image::class, 'imageable');
+        return $this->morphMany(Image::class, 'imageable');
     }
 
     /**
@@ -41,7 +52,6 @@ class Blog extends Model
     {
         return $this->morphToMany(Tag::class, 'taggable');
     }
-
     // MUTATORs
 
     /**
@@ -50,6 +60,11 @@ class Blog extends Model
     public function latestImage()
     {
         return $this->morphOne(Image::class, 'imageable')->latestOfMany();
+    }
+
+    public function oldestImage()
+    {
+        return $this->morphOne(Image::class, 'imageable')->oldestOfMany();
     }
 
 //    /**

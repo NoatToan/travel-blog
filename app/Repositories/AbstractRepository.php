@@ -54,7 +54,7 @@ class AbstractRepository
      * @param array $attributes
      * @return mixed
      */
-    public function create(array $attributes)
+    public function store(array $attributes)
     {
         return $this->model->query()
             ->create($attributes);

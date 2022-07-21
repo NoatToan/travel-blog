@@ -2,97 +2,22 @@
 
 namespace Tests\Feature\Controllers;
 
-use App\Models\User;
-use Tests\TestCase;
+use App\Models\Blog;
+use Tests\AbstractControllerTestCase;
 
-class BlogControllerTest extends TestCase
+class BlogControllerTest extends AbstractControllerTestCase
 {
-    public function usesDataProvider(): bool
+    public function __construct(?string $name = null, array $data = [], $dataName = '')
     {
-        return true;
+        $this->model = new Blog();
+
+        parent::__construct($name, $data, $dataName);
     }
 
-    public function test_blog_paginate()
+    public function test__construct()
     {
-        $response = $this->get('/api/blogs');
-
-        $response->assertStatus(200);
-        $response->assertJsonStructure([
-            'data',
-            'success',
-        ]);
-    }
-
-    public function test_blog_show()
-    {
-        $this->afterApplicationCreated(function () {
-            $ids = $this->getIdSamples();
-            foreach ($ids as $id) {
-                $response = $this->get("/api/blogs/$id");
-                $user = $this->findUser($id);
-                if (!$user) {
-                    $response->assertNotFound();
-                    $response->assertJsonStructure([
-                        'message',
-                        'success',
-                    ]);
-                    $response->assertExactJson(
-                        [
-                            'message' => 'messages.not_found',
-                            'success' => false,
-                        ]
-                    );
-
-                    return;
-                }
-                $response->assertOk();
-                $response->assertJsonStructure(
-                    [
-                        'data',
-                        'success',
-                    ]
-                );
-                $this->assertEquals($id, $user->id);
-            }
-        });
-    }
-
-    public function test_blog_destroy()
-    {
-        $this->afterApplicationCreated(function () {
-            $ids = $this->getIdSamples();
-            foreach ($ids as $id) {
-                $user = User::query()->find($id);
-                $response = $this->delete("/api/blogs/$id");
-
-                if (!$user) {
-                    $response->assertNotFound();
-                    $response->assertJsonStructure([
-                        'message',
-                        'success',
-                    ]);
-                    $response->assertExactJson(
-                        [
-                            'message' => 'messages.not_found',
-                            'success' => false,
-                        ]
-                    );
-                    return;
-                }
-
-                $user->delete();
-                $this->assertSoftDeleted($user);
-            }
-        });
-    }
-
-    private function getIdSamples()
-    {
-        return [1, 100000, 101];
-    }
-
-    private function findUser($id)
-    {
-        return User::query()->find($id);
+        parent::test_paginate();
+        parent::test_show();
+        parent::test_destroy();
     }
 }
