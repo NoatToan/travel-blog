@@ -41,26 +41,37 @@ class Handler extends ExceptionHandler
      */
     public function register()
     {
+    $this->reportable(function (Throwable $e) {
+            if (app()->bound('sentry')) {
+                app('sentry')->captureException($e);
+            }
+        });
         $this->renderable(function (BroadcastException $e) {
             Log::channel('pusher')->error($e);
 
-            return Response::serverError(__('messages.server_error'));
+            return Response::serverError(__('messages.pusher.common_error'));
         });
         $this->renderable(function (ModelNotFoundException $e) {
-            return Response::clientError(__('messages.not_found', 404));
+            return Response::clientError(__('messages.errors.crud.not_exist'), 404);
         });
         $this->renderable(function (NotFoundHttpException $e) {
             if ($e->getPrevious() instanceof ModelNotFoundException) {
-                return Response::clientError(__('messages.not_found'), 404);
+                return Response::clientError(__('messages.errors.crud.not_exist'), 404);
             }
 
-            return Response::clientError(__('messages.server_error'), 404);
+            return Response::clientError(__('message_error_page.404.title'), 404);
         });
         $this->renderable(function (AuthenticationException $e) {
-            return Response::clientError(__('messages.unauthorized'), 401);
+            return Response::clientError(__('alias_template.login.not_login'), 401);
         });
         $this->renderable(function (ValidationException $e) {
-            return Response::showMessageError(__('messages.validation_failed'), $e->errors());
+            return Response::showMessageError(__('message_error_page.422'), $e->errors());
+        });
+        $this->renderable(function (NotAuthorizedOnTournament $e) {
+            return Response::clientError(__('messages.errors.crud.not_authorized'), 403);
+        });
+        $this->renderable(function (Exception $exception) {
+            return Response::serverError('サーバエラーが発生しました。');
         });
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Repositories;
 
-use App\Models\Blog;
+use App\Models\User;
 
-class BlogRepository extends AbstractRepository
+class UserRepository extends AbstractRepository
 {
-    public function __construct(Blog $model)
+    public function __construct(User $model)
     {
         $this->model = $model;
     }

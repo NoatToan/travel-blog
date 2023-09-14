@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Auth\SessionGuard;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        JsonResource::withoutWrapping();
         $auth = Auth::user();
         SessionGuard::macro('fullName', function () use ($auth) {
             return $auth->first_name . ' ' . $auth->last_name;

@@ -6,33 +6,32 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreBlogRequest;
 use App\Http\Requests\UpdateBlogRequest;
 use App\Http\Resources\Blogs\BlogResource;
-use App\Services\BlogService;
+use App\Http\Resources\Users\UserResource;
+use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Response;
 
-class BlogController extends Controller
+class UserController extends Controller
 {
     private $service;
 
-    public function __construct(BlogService $service)
+    public function __construct(UserService $service)
     {
         $this->service = $service;
     }
 
     public function index(Request $request)
     {
-        return Response::indexSuccess(
-            BlogResource::collection(
+        return UserResource::collection(
                 $this->service->paginate($request)
-            )
-        );
+            );
     }
 
     public function store(StoreBlogRequest $request)
     {
         return Response::storeSuccess(
-            BlogResource::make(
+            UserResource::make(
                 $this->service->store($request)
             )
         );
@@ -41,7 +40,7 @@ class BlogController extends Controller
     public function show($id)
     {
         return Response::showSuccess(
-            BlogResource::make($this->service->show($id))
+            UserResource::make($this->service->show($id))
         );
     }
 

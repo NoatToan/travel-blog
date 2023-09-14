@@ -24,6 +24,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role_id',
+        'description',
     ];
 
     /**
@@ -61,5 +62,19 @@ class User extends Authenticatable
     public function inRole(array $roleIds): bool
     {
         return in_array($this->role_id, $roleIds);
+    }
+
+
+    /**
+     * Get the user's image.
+     */
+    public function images()
+    {
+        return $this->morphMany(Image::class, 'imageable');
+    }
+
+    public function mainProfileImage()
+    {
+        return $this->morphOne(Image::class, 'imageable')->profileImage();
     }
 }

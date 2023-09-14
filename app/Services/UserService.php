@@ -2,15 +2,15 @@
 
 namespace App\Services;
 
-use App\Repositories\BlogRepository;
+use App\Repositories\UserRepository;
 use App\Repositories\ImageRepository;
 use Illuminate\Http\Request;
 
-class BlogService extends AbstractService
+class UserService extends AbstractService
 {
     private $imageRepository;
 
-    public function __construct(BlogRepository $repository, ImageRepository $imageRepository)
+    public function __construct(UserRepository $repository, ImageRepository $imageRepository)
     {
         $this->repository = $repository;
         $this->imageRepository = $repository;
@@ -20,13 +20,8 @@ class BlogService extends AbstractService
     {
         return $this->query()
             ->with([
-                'author',
-                'comments',
-                'images',
-                'latestImage',
-                'oldestImage',
+                'images','mainProfileImage',
             ])
-            ->withCount(['images'])
             ->paginate();
     }
 
@@ -34,13 +29,9 @@ class BlogService extends AbstractService
     {
         return $this->query()
             ->with([
-                'author',
-                'comments',
-                'images',
-                'latestImage',
-                'oldestImage',
+                'images','mainProfileImage',
+
             ])
-            ->withCount(['images'])
             ->findOrFail($id);
     }
 

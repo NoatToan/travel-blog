@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
             'email_verified_at' => now(),
             'password' => '$2a$12$oR8EZLU50Irn2JqKqk/0MOf.1YdsdUTN0fW6jBLPe2RzeGdSPB2Ti', // 123321abc
             'remember_token' => Str::random(10),
-            'role_id' => UserRole::ADMIN
+            'role_id' => UserRole::ADMIN,
         ]);
     }
 }

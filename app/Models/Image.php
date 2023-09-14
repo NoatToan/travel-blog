@@ -11,7 +11,7 @@ class Image extends Model
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'name', 'path'
+        'name', 'path', 'image_type'
     ];
 
     /**
@@ -21,4 +21,11 @@ class Image extends Model
     {
         return $this->morphTo();
     }
+
+
+    public function scopeProfileImage($query)
+    {
+         return $query->where('image_type', 'main_profile_image');
+    }
+
 }

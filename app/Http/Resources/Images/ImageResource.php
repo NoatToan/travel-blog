@@ -1,24 +1,18 @@
 <?php
 
-namespace App\Http\Resources\Users;
+namespace App\Http\Resources\Images;
 
 use App\Http\Resources\BaseResource;
 
-class UserResource extends BaseResource
+class ImageResource extends BaseResource
 {
     public function toArray($request)
     {
         return [
             'id' => $this->id,
-            'first_name' => $this->first_name,
-            'last_name' => $this->last_name,
-            'role_id' => $this->role_id,
-            'images' => $this->whenLoaded('images', function () {
-                return $this->images;
-            }),
-            'main_profile_image' => $this->whenLoaded('mainProfileImage', function () {
-                return $this->mainProfileImage;
-            }),
+            'name' => $this->name,
+            'path' => $this->path,
+            'image_type' => $this->image_type,
         ];
     }
 }
